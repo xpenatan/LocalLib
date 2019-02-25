@@ -42,7 +42,7 @@ locallib.replace =\
 
 locallib.includeBuild = D:\\Libgdx
 locallib.replace = \
-com.badlogicgames.gdx:gdx-platform:1.9.10-SNAPSHOT:natives-desktop = files("C:\\Libgdx\\gdx\\libs\\gdx-natives.jar"),\
+com.badlogicgames.gdx:gdx-platform:1.9.10-SNAPSHOT:natives-desktop = files("D:\\Libgdx\\gdx\\libs\\gdx-natives.jar"),\
 com.badlogicgames.gdx:gdx-bullet-platform:1.9.10-SNAPSHOT:natives-desktop = files("D:\\Libgdx\\extensions\\gdx-bullet\\libs\\gdx-bullet-natives.jar"),\
 com.badlogicgames.gdx:gdx-box2d-platform:1.9.10-SNAPSHOT:natives-desktop = files("D:\\Libgdx\\extensions\\gdx-box2d\\gdx-box2d\\libs\\gdx-box2d-natives.jar")
 ```
