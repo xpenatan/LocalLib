@@ -1,9 +1,9 @@
 plugins {
 }
 
+apply from: 'deploy.gradle'
 apply from: 'common.gradle'
 apply plugin: 'java-gradle-plugin'
-apply plugin: 'maven-publish'
 
 group project.ext.group
 version project.ext.version
@@ -39,18 +39,4 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 artifacts {
     archives sourcesJar, javadocJar
-}
-
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
-            groupId project.group
-            artifactId 'LocalLib'
-            version project.version
-        }
-    }
 }

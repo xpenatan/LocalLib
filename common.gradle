@@ -1,4 +1,5 @@
 ext.version = "1.0.0-SNAPSHOT"
 ext.group = "com.github.xpenatan"
+ext.name = "LocalLib"
 ext.scm = 'https://github.com/xpenatan/LocalLib.git'
 ext.description = 'A Gradle plugin that makes composite builds and dependency substitution easy'

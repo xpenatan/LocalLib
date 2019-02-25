@@ -1,0 +1,63 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+signing {
+	required { gradle.taskGraph.hasTask("uploadArchives") }
+	sign configurations.archives
+}
+
+def localMavenRepo = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+
+// Create the pom configuration:
+def pomConfig = {
+	licenses {
+		license {
+			name 'The Apache Software License, Version 2.0'
+			url 'http://www.apache.org/licenses/LICENSE-2.0'
+		}
+	}
+	scm {
+		url ext.scm
+	}
+	developers {
+		developer {
+			id 'xpenatan'
+			name 'Natan Guilherme'
+		}
+	}
+}
+
+uploadArchives {
+	repositories {
+		mavenDeployer() {
+			if(project.hasProperty('local')) {
+				if(project.hasProperty('localPath')) {
+					repository(url: "file://" + project.property('localPath'))
+				}
+				else {
+					repository(url: localMavenRepo )
+				}
+			} else {
+				Properties properties = new Properties()
+				properties.load(project.rootProject.file("local.properties").newDataInputStream())
+				beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+				snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+					authentication(userName: properties.getProperty("xUser"), password: properties.getProperty("xPass"))
+				}
+			}
+
+			pom*.whenConfigured { pom -> pom.dependencies.clear() }
+
+			pom.withXml {
+				def root = asNode()
+				root.appendNode('description', project.ext.description)
+				root.appendNode('name', project.ext.name)
+				root.appendNode('artifactId', "locallib")
+				root.appendNode('groupId', project.ext.group)
+				root.appendNode('version ', project.ext.version)
+				root.appendNode('packaging ', "jar")
+				root.children().last() + pomConfig
+			}
+		}
+	}
+}
